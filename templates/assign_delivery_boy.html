@@ -1,0 +1,99 @@
+{% extends "seller_base.html" %}
+
+{% block content %}
+<style>
+  #card {
+    box-shadow: 1px 1px 1px 1px;
+    border-radius: 30px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .order-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .order-details {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+  }
+  .order-id,
+  .order-status,
+  .order-owner {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+  }
+  .assign-button {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+</style>
+
+<!-- Page Title -->
+<div class="page-title dark-background" data-aos="fade" style="background-image: url(../static/assets/img/page-title-bg.webp);">
+  <div class="container position-relative">
+    <h1>Orders</h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/sellerhome">Home</a></li>
+        <li class="current">Orders</li>
+      </ol>
+    </nav>
+  </div>
+</div><!-- End Page Title -->
+
+<section class="orders-section section" id="orders">
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Orders</h2>
+  </div><!-- End Section Title -->
+
+  <div class="orders-wrap">
+    <div class="container">
+      <div class="row">
+        {% for order in orders %}
+        <div class="col-md-12" id="card">
+          <div class="order-info">
+            <div class="order-details">
+              <div class="order-id"><strong>Order ID:</strong> {{ order.id }}</div>
+              <div class="order-owner"><strong>Owner:</strong> {{ order.owner.name }}</div>
+              <div class="order-status"><strong>Status:</strong><span style="color:green"> {{ order.status }}</span></div>
+            </div>
+            <form method="POST" action="{% url 'assign_delivery_boy' %}">
+              {% csrf_token %}
+              <input type="hidden" name="order_id" value="{{ order.id }}">
+              <label for="delivery_boy_{{ order.id }}"><b>Assign Delivery Boy:</b></label>
+              <select name="delivery_boy" id="delivery_boy_{{ order.id }}" required>
+                <option value="" disabled selected>Select Delivery Boy</option>
+                {% for delivery_boy in delivery_boys %}
+                <option value="{{ delivery_boy.id }}">{{ delivery_boy.name }}</option>
+                {% endfor %}
+              </select>
+              <button type="submit" class="assign-button">Assign</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section><!-- /Orders Section -->
+
+{% if messages %}
+{% for message in messages %}
+<script>
+  alert("{{ message }}");
+</script>
+{% endfor %}
+{% endif %}
+
+{% endblock content %}

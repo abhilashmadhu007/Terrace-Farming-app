@@ -1,0 +1,59 @@
+{% extends "worker_base.html" %}
+{% block content %}
+
+  <!-- Page Title -->
+  <div class="page-title dark-background" data-aos="fade" style="background-image: url(../static/assets/img/page-title-bg.webp);">
+    <div class="container position-relative">
+      <h1>Workers</h1>
+      <p>
+        Home / Add Products
+      </p>
+      <nav class="breadcrumbs">
+        <ol>
+          <li><a href="/sellerhome">Home</a></li>
+          <li class="current">Add Product</li>
+        </ol>
+      </nav>
+    </div>
+  </div><!-- End Page Title -->
+
+  <section class="blog-posts-2 section">
+    <div class="container">
+      <div class="row gy-4">
+        {% for book in booking %}
+        <div class="col-lg-4">
+          <article>
+
+            <div class="post-img position-relative overflow-hidden">
+            </div>
+
+            <div class="meta d-flex align-items-end">
+              <div class="d-flex align-items-center">
+              </div>
+              <span class="px-3 text-black-50"></span>
+              <div class="d-flex align-items-center">
+                <span class="ps-2">{{ book.date }}</span>
+              </div>
+            </div>
+
+            <div class="post-content d-flex flex-column">
+              <span class=""><h3>Name: {{ book.user.name }}</h3></span>
+              <h3 class="post-title">Address: {{ book.user.place }}</h3>
+              <a href="" >Space: <span> {{ book.user.space }}</span></a>
+              <br>
+              <!-- Approve button -->
+              <a href="/approve_booking?booking_id={{ book.id }}" class="btn btn-success">Approve</a>
+              <br>
+
+              <!-- Chat button linking to chat page with worker and user -->
+              <a href="{% url 'chat_with_user' booking_id=book.id %}" class="btn btn-primary">Chat with User</a>
+            </div>
+
+          </article>
+        </div><!-- End post list item -->
+        {% endfor %}
+      </div>
+    </div>
+  </section><!-- /Blog Posts 2 Section -->
+
+{% endblock content %}

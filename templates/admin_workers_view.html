@@ -1,0 +1,90 @@
+{% extends "admin_base.html" %}
+{% block content %}
+
+<body class="contact-page">
+
+    <header id="header" class="header d-flex align-items-center position-relative">
+      <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+  
+        <a href="index.html" class="logo d-flex align-items-center">
+          <!-- Uncomment the line below if you also wish to use an image logo -->
+          <img src="../static/assets/img/logo.png" alt="AgriCulture">
+          <!-- <h1 class="sitename">AgriCulture</h1>  -->
+        </a>
+  
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="/userhome" class="active">Home</a></li>
+            <li><a href="/admin_workers_view">Workers</a></li>
+            <li><a href="/admin_users_view">Users</a></li>
+            <li><a href="/">Logout</a></li>
+             
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+      </div>
+    </header>
+  
+    
+    <main class="main">
+  
+      <!-- Page Title -->
+      <div class="page-title dark-background" data-aos="fade" style="background-image: url(../static/assets/img/page-title-bg.webp);">
+        <div class="container position-relative">
+          <h1>Workers</h1>
+          <p>
+            Home
+            /
+            Add Products
+          </p>
+          <nav class="breadcrumbs">
+            <ol>
+              <li><a href="/sellerhome">Home</a></li>
+              <li class="/admin_workers_view">Workers</li>
+              <li class="/admin_users_view">Users</li>
+
+            </ol>
+          </nav>
+        </div>
+      </div><!-- End Page Title -->
+
+<section  class="blog-posts-2 section">
+    
+
+    <div class="container">
+      <div class="row gy-4">
+        {% for worker in workers %}
+        <div class="col-lg-4">
+          <article >
+
+            <div class="post-img position-relative overflow-hidden">
+              <img src="{{ worker.proof.url }}" class="img-fluid" alt="">
+            </div>
+
+            <div class="meta d-flex align-items-end">
+             
+              <div class="d-flex align-items-center">
+                     <span class="ps-2"><h3>{{worker.name}}</h3></span>
+              </div>
+              <span class="px-3 text-black-50"></span>
+              <div class="d-flex align-items-center">
+                 <span class="ps-2">{{worker.time}}</span>
+              </div>
+            </div>
+
+            <div class="post-content d-flex flex-column">
+
+              <h3 class="post-title">{{worker.email}}</h3>
+              <a href="" >status : <span> {{worker.status}}</span></i></a>
+              <br>
+              <a href="" class="btn btn-danger">book</a>
+            </div>
+            
+
+          </article>
+        </div><!-- End post list item -->
+        {% endfor %}
+      </div>
+    </div>
+
+  </section><!-- /Blog Posts 2 Section -->
+{% endblock content %}

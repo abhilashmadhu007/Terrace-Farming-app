@@ -1,0 +1,98 @@
+{% extends "user_base.html" %}
+
+{% block content %}
+<style>
+  #card {
+    box-shadow: 1px 1px 1px 1px;
+    border-radius: 30px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .booking-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .booking-details {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+  }
+  .worker-name,
+  .booking-date,
+  .booking-status {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+  }
+  .chat-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+</style>
+  
+<!-- Page Title -->
+<div class="page-title dark-background" data-aos="fade" style="background-image: url(../static/assets/img/page-title-bg.webp);">
+  <div class="container position-relative">
+    <h1>Bookings</h1>
+    
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/userhome">Home</a></li>
+        <li class="current">Bookings</li>
+      </ol>
+    </nav>
+  </div>
+</div><!-- End Page Title -->
+
+<section class="booking-section section" id="bookings">
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Your Bookings</h2>
+  </div><!-- End Section Title -->
+
+  <div class="booking-wrap">
+    <div class="container">
+      <div class="row">
+        {% for booking in bookings %}
+        <div class="col-md-12" id="card">
+          <div class="booking-info">
+            <div class="booking-details">
+              <strong>Worker:</strong>
+              <div class="worker-name">{{ booking.worker.name }}</div>
+              <div class="booking-date">Date: {{ booking.date }}</div>
+              <div class="booking-status">Status: {{ booking.status }}</div>
+            </div>
+            <form method="GET" action="{% url 'chat_with_worker' booking.id %}">
+              <button type="submit" class="chat-button">Chat</button>
+            </form> 
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section><!-- /Booking Section -->
+
+<!-- Call To Action Section -->
+<section id="call-to-action" class="call-to-action section light-background">
+<a href="/userhome" class="btn btn-secondary" style="position: absolute; right: 10%;">Back to Home</a>
+</section>
+
+<!-- Success/Error Messages -->
+{% if messages %}
+  {% for message in messages %}
+  <script>
+    alert("{{ message }}");
+  </script>
+  {% endfor %}
+{% endif %}
+
+{% endblock content %}

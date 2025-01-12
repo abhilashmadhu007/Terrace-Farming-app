@@ -1,0 +1,172 @@
+{% extends "seller_base.html" %}
+
+{% block content %}
+  
+
+
+
+
+    <!-- Page Title -->
+    <div class="page-title dark-background" data-aos="fade" style="background-image: url(../static/assets/img/page-title-bg.webp);">
+      <div class="container position-relative">
+        <h1>Seller Add Product</h1>
+        <p>
+          Home
+          /
+          Add Products
+        </p>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a href="/sellerhome">Home</a></li>
+            <li class="current">add product</li>
+          </ol>
+        </nav>
+      </div>
+    </div><!-- End Page Title -->
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+
+      
+
+      <div class="container" data-aos="fade">
+
+        <div class="row gy-5 gx-lg-5">
+
+          
+
+          <div class="col-lg-12">
+            <form action="{% url 'seller_add_product' %}" method="post" role="form" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Product Name" required="">
+                </div>
+                <div class="col-md-6 form-group mt-3 mt-md-0">
+                  <input type="number" class="form-control" name="price" id="email" placeholder="Price" required="">
+                </div>
+                
+              </div>
+              <div class="row">
+              <div class="col-md-6 mt-3">
+                <input type="number" class="form-control" name="quantity" id="subject" placeholder="quantity" required="">
+              </div>
+              <div class="col-md-6 mt-3">
+                <input type="file" class="form-control" name="image" id="subject" placeholder="image" required="">
+              </div>
+              <div class="form-group mt-3">
+                <textarea class="form-control" name="description" placeholder="description" required=""></textarea>
+              </div>
+              <div class="col-md-6 mt-3">
+              </div>
+            </div>
+            <div class="text-center mt-3"><button type="submit" class="btn btn-primary">Register</button></div> 
+
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+
+    </section>
+{% comment %}     
+    <section id="blog-posts-2" class="blog-posts-2 section">
+      <div class="container">
+        <div class="row gy-4" >
+          {% for product in products %}
+          <div class="col-lg-4" style="border:1px solid black">
+            <article>
+              
+              <div class="post-img position-relative overflow-hidden">
+                <img src="{{ product.image.url }}" class="img-fluid" alt="">
+              </div>
+
+              <div class="meta d-flex align-items-end">
+                <span class="post-date"><span>{{product.quantity}}</span>Quantity</span>
+                <div class="d-flex align-items-center">
+               <span class="ps-2"><h3>{{product.name}}<h3></span>
+                </div>
+                <span class="px-3 text-black-50"></span>
+                <div class="d-flex align-items-center">
+                  <span class="ps-2"></span>
+                </div>
+              </div>
+
+              <div class="post-content d-flex flex-column">
+
+                <h3 class="post-title">Rs : {{product.price}}</h3>
+                <a class="readmore stretched-link"><span>{{product.description}}</span></a>
+                <br>
+                <form action="{% url 'update_seller_quantity' %}" method="post">
+                  {% csrf_token %}
+                  <input type="number" name="aquantity" placeholder="quantity">
+                  <input type="hidden" value="{{product.id}}" name="pid">
+                  <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+              </div>
+              
+            <a href="/seller_product_remove?id={{product.id}}" class="btn btn-danger" style="margin-left: 80%; margin-bottom: 10px;">delete</a>
+          </article>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section> {% endcomment %}
+
+    <section  class="blog-posts-2 section">
+
+      <div class="container">
+        <div class="row gy-4">
+          {% for product in products %}
+          <div class="col-lg-4">
+            <article >
+
+              <div class="post-img position-relative overflow-hidden">
+                <img src="{{ product.image.url }}" class="img-fluid" alt="">
+              </div>
+
+              <div class="meta d-flex align-items-end">
+                <span class="post-date"><span>{{product.quantity}}</span>Quantity</span>
+                <div class="d-flex align-items-center">
+                   <span class="ps-2"></span>
+                </div>
+                <span class="px-3 text-black-50"></span>
+                <div class="d-flex align-items-center">
+                   <span class="ps-2"></span>
+                </div>
+              </div>
+
+              <div class="post-content d-flex flex-column">
+
+                <h3 class="post-title">{{product.name}}</h3>
+                <a href="" ><span>{{product.description}}</span></i></a>
+                <br>
+                <form action="{% url 'update_seller_quantity' %}" method="post">
+                  {% csrf_token %}
+                  <input type="number" name="aquantity" placeholder="quantity">
+                  <input type="hidden" value="{{product.id}}" name="pid">
+                  <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+              </div>
+              <a href="/seller_product_remove?id={{product.id}}" class="btn btn-danger" style="margin-left: 80%; margin-bottom: 10px;">delete</a>
+
+            </article>
+          </div><!-- End post list item -->
+          {% endfor %}
+        </div>
+      </div>
+
+    </section><!-- /Blog Posts 2 Section -->
+
+
+    {% if messages %}
+    {% for message in messages %}
+    <script> 
+      alert("{{message}}")
+    </script>
+    
+    {% endfor %}
+    {% endif %}
+
+    {% endblock content %}

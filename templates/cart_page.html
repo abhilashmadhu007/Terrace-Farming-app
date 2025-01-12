@@ -1,0 +1,102 @@
+{% extends "user_base.html" %}
+
+{% block content %}
+{% load multiply %}
+<style>
+  #card {
+    box-shadow: 1px 1px 1px 1px;
+    border-radius: 30px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .product-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .product-details {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+  }
+  .product-name,
+  .product-quantity,
+  .product-price {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+  }
+  .remove-button {
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+</style>
+  
+<!-- Page Title -->
+<div class="page-title dark-background" data-aos="fade" style="background-image: url(../static/assets/img/page-title-bg.webp);">
+  <div class="container position-relative">
+    <h1>Cart</h1>
+    
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/sellerhome">Home</a></li>
+        <li class="current">Cart</li>
+      </ol>
+    </nav>
+  </div>
+</div><!-- End Page Title -->
+
+<section class="cart-section section" id="cart">
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Cart</h2>
+  </div><!-- End Section Title -->
+
+  <div class="cart-wrap">
+    <div class="container">
+      <div class="row">
+        {% for order in all_orders %}
+        <div class="col-md-12" id="card">
+          <div class="product-info">
+            <div class="product-details">
+              <strong>product :</strong>
+              <div class="product-name">{{ order.product.name }}</div>
+              <div class="product-quantity">Quantity: {{ order.quantity }}</div>
+              <div class="product-price">Price: &#8377;{{ order.quantity|multiply:order.product.price }}</div>
+            </div>
+            <form method="POST" action="{% url 'cart_remove' %}">
+              {% csrf_token %}
+              <input type="hidden" name="order_id" value="{{ order.id }}">
+              <button type="submit" class="remove-button">Remove</button>
+            </form>
+          </div>
+        </div>
+       
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section><!-- /Cart Section -->
+
+<!-- Call To Action Section -->
+<section id="call-to-action" class="call-to-action section light-background">
+<a href="/user_payment?total={{grand_total}}&cid={{order.id}}&uid={{uid}}" class="btn btn-primary" style="position: absolute; right: 10%;">Pay :{{ grand_total }}</a>
+
+</section>
+  {% if messages %}
+  {% for message in messages %}
+  <script>
+    alert("{{ message }}");
+  </script>
+  {% endfor %}
+  {% endif %}
+
+
+{% endblock content %}

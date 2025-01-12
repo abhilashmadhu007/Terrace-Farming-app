@@ -1,0 +1,95 @@
+{% extends "deliveryhome.html" %}
+
+
+{% block content %}
+<style>
+  #order-card {
+    box-shadow: 1px 1px 1px 1px;
+    border-radius: 30px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .order-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .order-details {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+  }
+  .order-id,
+  .order-status,
+  .order-place {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+  }
+  .delivered-button {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+</style>
+
+<!-- Page Title -->
+<div class="page-title dark-background" data-aos="fade" style="background-image: url(../static/assets/img/page-title-bg.webp);">
+  <div class="container position-relative">
+    <h1>Assigned Orders</h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/home">Home</a></li>
+        <li class="current">Assigned Orders</li>
+      </ol>
+    </nav>
+  </div>
+</div><!-- End Page Title -->
+
+<section class="orders-section section" id="orders">
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Assigned Orders</h2>
+  </div><!-- End Section Title -->
+
+  <div class="orders-wrap">
+    <div class="container">
+      <div class="row">
+        {% for order in assigned_orders %}
+        <div class="col-md-12" id="order-card">
+          <div class="order-info">
+            <div class="order-details">
+              <div class="order-id"><strong>Order ID:</strong> {{ order.id }}</div>
+              <div class="order-place"><strong>Place:</strong> {{ order.owner.place }}</div>
+              <div class="order-status"><strong>Status:</strong> {{ order.status }}</div>
+            </div>
+            {% if order.status == 'In Transit' %}
+            <form method="POST" action="{% url 'delivery_boy_orders' %}">
+              {% csrf_token %}
+              <input type="hidden" name="order_id" value="{{ order.id }}">
+              <button type="submit" class="delivered-button">Mark as Delivered</button>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section><!-- /Orders Section -->
+
+{% if messages %}
+{% for message in messages %}
+<script>
+  alert("{{ message }}");
+</script>
+{% endfor %}
+{% endif %}
+
+{% endblock content %}

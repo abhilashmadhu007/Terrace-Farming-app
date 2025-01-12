@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../static/assets/css/style-starter2.css">
+    <style>
+        body {
+            margin: 0 auto;
+            min-height: 1000px;
+            padding: 0 20px;
+            background-image: url(../static/assets/img/chatbg.jpg);
+        }
+
+        .container {
+            border: 2px solid #dedede;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .darker {
+            border-color: #ccc;
+            background-color: #d1d1d1;
+        }
+
+        .container::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .time-right {
+            float: right;
+            color: #aaa;
+        }
+
+        .time-left {
+            float: left;
+            color: #999;
+        }
+
+        .msg-right {
+            float: right;
+        }
+
+        p {
+            color: #000000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <a href="/view_worker_request"><button class="btn btn-danger">Back</button></a>
+    <h2 style="color: white;">Chat with {{ user.name }}</h2>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-12">
+                <input class="form-control" type="text" name="msg" required="" placeholder="Type a message">
+            </div>
+            <div class="col">
+                <button type="submit" class="msg_send_btn btn btn-success">Send</button>
+            </div>
+        </div>
+    </form>
+
+    {% if messages %}
+        {% for chat in messages %}
+            {% if chat.sender == 'worker' %}
+                <div class="container">
+                    <p class="msg-right">{{ chat.message }}</p>
+                    <small class="time-right">{{ chat.created_at }}</small>
+                </div>
+            {% else %}
+                <div class="container darker">
+                    <p class="msg-left">{{ chat.message }}</p>
+                    <small class="time-left">{{ chat.created_at }}</small>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+</body>
+</html>
